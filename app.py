@@ -72,7 +72,7 @@ def delete(movie_id):
 
 @app.errorhandler(404)
 def page_not_found(e):  # 接收异常对象
-    user = User.query.first()
+    # user = User.query.first()
     return render_template('404.html'), 404  # 返回模板和状态码
 
 
