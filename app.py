@@ -32,8 +32,6 @@ def index():
         flash('Item created.')  #显示创建成功
         return redirect(url_for('index'))  #返回主页
     #默认通过get方法获取到主页数据
-    user = User.query.get(1)
-    movies = Movie.query.all()
     return render_template('index.html')
 
 @app.route('/movie/edit/<int:movie_id>', methods=['GET', 'POST'])
@@ -55,6 +53,14 @@ def edit(movie_id):
         return redirect(url_for('index'))  # 重定向回主页
 
     return render_template('edit.html', movie=movie)  # 传入被编辑的电影记录
+
+@app.route('/movie/delete/<int:movie_id>', methods=['POST'])
+def delete(movie_id):
+    movie = Movie.query.get_or_404(movie_id)
+    db.session.delete(movie)
+    db.session.commit()
+    flash('Item deleted.')
+    return redirect(url_for('index'))
 
 @app.errorhandler(404)
 def page_not_found(e):  # 接收异常对象
